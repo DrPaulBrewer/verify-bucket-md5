@@ -47,6 +47,10 @@ describe('verify-bucket-md5: ', function(){
     it('no files exist', function(){
 	return filesExist(false);
     });
+    it('verifyBucketMD5(bucket, /bad/path/to/nonexistent/file) throws error', function(done){
+	verifyBucketMD5(bucket, '/bad/path/to/nonexistent/file').then(()=>(done("test failed")),
+								      (e)=>(done()));
+    });
     it('create the files for testing', function(){
 	return Promise.all([
 	    pipeToStorage('Hello World '+Math.random(),bucket,file1),
