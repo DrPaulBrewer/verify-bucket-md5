@@ -66,7 +66,9 @@ Copyright 2017 Paul Brewer, Economic and Financial Technology Consulting LLC <dr
 
 The MIT License
 
-### No relationship to Google, Inc. 
+### No relationship to Google, Inc.
+
+Google Cloud Storage[tm] is a trademark of Google, Inc.
 
 This software is not a product of Google Inc.
 
