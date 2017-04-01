@@ -1,0 +1,34 @@
+{
+  "name": "verify-bucket-md5",
+  "version": "0.1.0",
+  "description": "Compare the md5 metadata of files in a Google Cloud Storage [tm] bucket against an md5.json file also stored in the bucket",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec --slow 5000 --timeout 120000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drpaulbrewer/verify-bucket-md5.git"
+  },
+  "keywords": [
+    "md5"
+  ],
+  "author": "drpaulbrewer@eaftc.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drpaulbrewer/verify-bucket-md5/issues"
+  },
+  "homepage": "https://github.com/drpaulbrewer/verify-bucket-md5#readme",
+  "devDependencies": {
+    "@google-cloud/storage": "^1.0.0",
+    "mocha": "^3.2.0",
+    "pipe-to-storage": "^0.8.0",
+    "should": "^11.2.1"
+  },
+  "dependencies": {
+    "promise-retry": "^1.1.1"
+  }
+}
