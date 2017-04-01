@@ -1,6 +1,6 @@
 {
   "name": "verify-bucket-md5",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Compare the md5 metadata of files in a Google Cloud Storage [tm] bucket against an md5.json file also stored in the bucket",
   "main": "index.js",
   "directories": {
