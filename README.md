@@ -28,7 +28,7 @@ On Google platforms:
 
 On other platforms: set up your API key, see [relevant docs](https://www.npmjs.com/package/@google-cloud/storage)
 
-**Pass the storage object** when setting up pipeToStorage for usage
+**Pass the storage object** when setting up
 
     const verifyBucketMD5 = require('verify-bucket-md5')(storage);
 
