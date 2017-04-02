@@ -4,7 +4,7 @@
 
 Compare the md5 metadata of files in a Google Cloud Storage [tm] bucket against an md5.json file also stored in the bucket.
 
-Returns a Promise resolving to [ true|false,  [goodFileList], [badFileList], {file:err} ]
+Returns a Promise resolving to [ true|false,  [goodFileList], [badFileList], {file:err} , md5jsonDirname]
 
 `true|false` is overall status
 
@@ -13,6 +13,8 @@ Returns a Promise resolving to [ true|false,  [goodFileList], [badFileList], {fi
 `badFileList` is an Array of 0 or more files where the md5 listed in md5.json did not match the metadata md5 in Google Cloud Storage
 
 `{file:err}` contains exceptions reported when trying to access the files listed in md5.json.  For instance, a file might not exist in the bucket.
+
+md5jsonDirname is the "directory" portion of the path of the md5.json file
 
 Files in the badFileList have been modified from the md5 reported in md5.json
 
@@ -43,6 +45,7 @@ On other platforms: set up your API key, see [relevant docs](https://www.npmjs.c
 	// status[2] is an Array of filenames from md5.json that failed the md5 check
 	// status[3] is an Object whose keys are the filesnames where exceptions were reported in accessing md5 metadata
 	//                   and  whose values are the exceptions
+	// status[4] is the "directory" portion of the path, e.g. /path/in/the/bucket/to/
 	
          if (!status[0]){
              // there was a problem

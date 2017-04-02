@@ -14,9 +14,11 @@ const backoffStrategy = {
 };
 
 
-module.exports = function(storage){
+function verifyBucketMD5(storage){
     "use strict";
     return function(bucket,path){
+	const dirmatch = /.*\//.exec(path);
+	const dirname = (dirmatch)? (dirmatch[0]): '' ;
 	function promiseDL(fname){
 	    return (promiseRetry(((retry)=>(storage.bucket(bucket).file(fname).download().catch(retry))),
 				 backoffStrategy)
@@ -25,24 +27,25 @@ module.exports = function(storage){
 		   );
 	}
 	function promiseMD5(fname){
+	    const _fname = (/.*\//.test(fname))? fname: (dirname+fname);
 	    return promiseRetry(function(retry){
 		return (storage.
 			bucket(bucket)
-			.file(fname)
+			.file(_fname)
 			.get()
 			.catch(retry)
 			    );
 	    }, backoffStrategy).then(function(info){
 		const md5 = info[1].md5Hash;
-		if (!md5) throw new Error("can not determine md5 hash of gs://"+bucket+"/"+fname);
+		if (!md5) throw new Error("can not determine md5 hash of gs://"+bucket+"/"+_fname);
 		return md5;
 	    });
 	}
 
 	const err = {};
 	
-	return  (promiseDL(path).
-		 then(function(md5json){
+	return  (promiseDL(path)
+		 .then(function(md5json){
 		     const fileList = Object.keys(md5json).sort();
 		     function recordError(f){
 			 return function(e){
@@ -55,7 +58,7 @@ module.exports = function(storage){
 		     return (Promise
 			     .all(promises)
 			     .then(function(md5list){
-				 const status = [false,[],[],err];
+				 const status = [false,[],[],err,dirname];
 				 md5list.forEach(function(md5, j){
 				     if (md5===md5json[fileList[j]])
 					 status[1].push(fileList[j]);
@@ -69,4 +72,8 @@ module.exports = function(storage){
 		 })
 		);
     };
-};
+}
+
+
+module.exports = verifyBucketMD5;
+
