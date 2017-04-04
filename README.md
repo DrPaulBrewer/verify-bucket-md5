@@ -45,7 +45,7 @@ On other platforms: set up your API key, see [relevant docs](https://www.npmjs.c
 	// status[2] is an Array of filenames from md5.json that failed the md5 check
 	// status[3] is an Object whose keys are the filesnames where exceptions were reported in accessing md5 metadata
 	//                   and  whose values are the exceptions
-	// status[4] is the "directory" portion of the path, e.g. /path/in/the/bucket/to/
+	// status[4] is the "directory" portion of the path, e.g. gs://somebucket/path/in/the/bucket/to/
 	
          if (!status[0]){
              // there was a problem
