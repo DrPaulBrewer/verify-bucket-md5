@@ -4,6 +4,7 @@
 /* jshint esnext:true,eqeqeq:true,undef:true,lastsemic:true,strict:true,unused:true,node:true */
 
 const promiseRetry = require('promise-retry');
+const verifyFactory = require('verify-common-md5');
 
 const backoffStrategy = {
     retries: 2,
@@ -13,67 +14,36 @@ const backoffStrategy = {
     randomize: true
 };
 
+const dirRegex = /^.*\//;
 
-function verifyBucketMD5(storage){
-    "use strict";
-    return function(bucket,path){
-	const dirmatch = /.*\//.exec(path);
-	const dirname = (dirmatch)? (dirmatch[0]): '' ;
-	function promiseDL(fname){
-	    return (promiseRetry(((retry)=>(storage.bucket(bucket).file(fname).download().catch(retry))),
-				 backoffStrategy)
-		    .then( (buffer)=>(buffer.toString('utf8')) )
-		    .then( (jsonString)=>(JSON.parse(jsonString)) )
+function blueprint({storage, fastFail}){
+    return {
+	promiseChecklistBuffer: ({bucket,filepath})=>{
+	    return promiseRetry(
+		(retry)=>(storage.bucket(bucket).file(filepath).download().catch(retry)), backoffStrategy);
+	},
+	promiseActual: ({bucket,dir}, fname)=>{
+	    return (promiseRetry(
+		(retry)=>(storage.bucket(bucket).file(dir+fname).get().catch(retry)), backoffStrategy)
+		    .then((info)=>(info[1].md5Hash))
 		   );
-	}
-	function promiseMD5(fname){
-	    const _fname = (/.*\//.test(fname))? fname: (dirname+fname);
-	    return promiseRetry(function(retry){
-		return (storage.
-			bucket(bucket)
-			.file(_fname)
-			.get()
-			.catch(retry)
-			    );
-	    }, backoffStrategy).then(function(info){
-		const md5 = info[1].md5Hash;
-		if (!md5) throw new Error("can not determine md5 hash of gs://"+bucket+"/"+_fname);
-		return md5;
-	    });
-	}
-
-	const err = {};
-	
-	return  (promiseDL(path)
-		 .then(function(md5json){
-		     const fileList = Object.keys(md5json).sort();
-		     function recordError(f){
-			 return function(e){
-			     err[f]=e;
-			 };
-		     }
-		     const promises = fileList.map(function(f){
-			 return promiseMD5(f).catch(recordError(f)); 
-		     });
-		     return (Promise
-			     .all(promises)
-			     .then(function(md5list){
-				 const status = [false,[],[],err,dirname];
-				 md5list.forEach(function(md5, j){
-				     if (md5===md5json[fileList[j]])
-					 status[1].push(fileList[j]);
-				     else
-					 status[2].push(fileList[j]);
-				 });
-				 status[0] = (status[1].length === fileList.length);
-				 return status;
-			     })
-			    );
-		 })
-		);
+	},
+	getPrefix: ({bucket,filepath})=>{
+	    const dir = dirRegex.exec(filepath)[0];
+	    const str = "gs://"+bucket+"/"+dir;
+	    return { bucket, dir, toString:()=>(str)  };
+	},
+	fastFail
     };
 }
 
+function verifyBucketMD5(storage, fastFail){
+    "use strict";
+    const _verify = verifyFactory(blueprint({storage, fastFail}));
+    return function(bucket,filepath){
+	return _verify({bucket,filepath})
+    };
+};
 
 module.exports = verifyBucketMD5;
 

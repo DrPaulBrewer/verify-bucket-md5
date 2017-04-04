@@ -37,7 +37,7 @@ const file1 = 'verifymd5/hello.txt';
 const file2 = 'verifymd5/date.json';
 const file3 = 'verifymd5/code.js';
 const md5file = 'verifymd5/md5.json';
-const dirname = 'verifymd5/';
+const dirname = 'gs://'+bucket+'/verifymd5/';
 
 const files = [file3,file2,file1]; // sort order
 
@@ -121,7 +121,7 @@ function suite(relocate){
 			status[1].should.deepEqual([_file1[+relocate]]);
 			status[2].should.deepEqual([_file3[+relocate], _file2[+relocate]]);
 			assert.ok(typeof(status[3][_file1[+relocate]])==='undefined');
-			assert.ok(typeof(status[3][_file2[+relocate]])==='undefined');
+			assert.ok(typeof(status[3][_file2[+relocate]])!=='undefined');
 			assert.ok(typeof(status[3][_file3[+relocate]])!=='undefined');
 		    })
 		   );
@@ -136,6 +136,12 @@ function suite(relocate){
 }
 
 describe('verify-bucket-md5:', function(){
-    describe(' md5.json with /exact/path/to/file ', suite(false));
-    describe(' md5.json with filename.only ', suite(true));
+
+    /*    describe(' md5.json with /exact/path/to/file ', suite(false));
+     *      describe(' md5.json with filename.only ', suite(true));
+     *       
+     *   md5.json should not have paths in it
+     */
+
+    suite(true)();
 });
