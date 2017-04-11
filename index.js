@@ -7,8 +7,8 @@ const promiseRetry = require('promise-retry');
 const verifyFactory = require('verify-common-md5');
 
 const backoffStrategy = {
-    retries: 2,
-    factor: 1.5,
+    retries: 3,
+    factor: 2,
     minTimeout:  1000,
     maxTimeout: 10000,
     randomize: true
