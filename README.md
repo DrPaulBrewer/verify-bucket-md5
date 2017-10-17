@@ -1,5 +1,7 @@
 # verify-bucket-md5
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/DrPaulBrewer/verify-bucket-md5.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/DrPaulBrewer/verify-bucket-md5.svg?branch=master)](https://travis-ci.org/DrPaulBrewer/verify-bucket-md5)
 
 Compare the md5 metadata of files in a Google Cloud Storage [tm] bucket against an md5.json file also stored in the bucket.
