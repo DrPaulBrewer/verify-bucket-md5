@@ -1,8 +1,9 @@
 # verify-bucket-md5
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/DrPaulBrewer/verify-bucket-md5.svg)](https://greenkeeper.io/)
-
-[![Build Status](https://travis-ci.org/DrPaulBrewer/verify-bucket-md5.svg?branch=master)](https://travis-ci.org/DrPaulBrewer/verify-bucket-md5)
+![Build Status](https://github.com/DrPaulBrewer/verify-bucket-md5/actions/workflows/node.js.yml/badge.svg)
+[![Known Vulnerabilities](https://snyk.io/test/github/DrPaulBrewer/verify-bucket-md5/badge.svg)](https://snyk.io/test/github/DrPaulBrewer/verify-bucket-md5)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/DrPaulBrewer/verify-bucket-md5.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/DrPaulBrewer/verify-bucket-md5/context:javascript)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/DrPaulBrewer/verify-bucket-md5.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/DrPaulBrewer/verify-bucket-md5/alerts/)
 
 Compare the md5 metadata of files in a Google Cloud Storage [tm] bucket against an md5.json file also stored in the bucket.
 
@@ -48,7 +49,7 @@ On other platforms: set up your API key, see [relevant docs](https://www.npmjs.c
 	// status[3] is an Object whose keys are the filesnames where exceptions were reported in accessing md5 metadata
 	//                   and  whose values are the exceptions
 	// status[4] is the "directory" portion of the path, e.g. gs://somebucket/path/in/the/bucket/to/
-	
+
          if (!status[0]){
              // there was a problem
 	     throw new Error("Oh No! There was a problem with file integrity, race conditions, etc.");
@@ -59,7 +60,7 @@ On other platforms: set up your API key, see [relevant docs](https://www.npmjs.c
 
 ## Tests
 
-This module is tested on Travis CI, but you won't be able to run the same tests yourself without some adjustments.
+This package is tested on Github, but you won't be able to run the same tests yourself without some adjustments.
 
 To run the tests in your own environment, change the storage API credentials (projectId, keyFilename) and the bucket name referenced in `./test/index.js`.  
 
@@ -77,4 +78,4 @@ Google Cloud Storage[tm] is a trademark of Google, Inc.
 
 This software is not a product of Google Inc.
 
-The author(s) have no relationship to Google, Inc. 
+The author(s) have no relationship to Google, Inc.

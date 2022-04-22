@@ -1,6 +1,6 @@
+.github
+gpg
 node_modules
 *~
-storage.json
-test/storage.json
 test-storage.json
 coverage
