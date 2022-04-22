@@ -4,8 +4,7 @@ const assert = require('assert');
 require('should');
 
 const storage = require('@google-cloud/storage')({
-    projectId: 'eaftc-open-source-testing',
-    keyFilename: './test/storage.json'
+    keyFilename: './test-storage.json'
 });
 
 const pipeToStorage = require('pipe-to-storage')(storage);

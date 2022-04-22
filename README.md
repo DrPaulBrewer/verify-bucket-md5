@@ -59,7 +59,7 @@ On other platforms: set up your API key, see [relevant docs](https://www.npmjs.c
 
 ## Tests
 
-This module is tested on Travis CI, but you won't be able to run the same tests yourself without some adjustments.
+This module is tested on Github, but you won't be able to run the same tests yourself without some adjustments.
 
 To run the tests in your own environment, change the storage API credentials (projectId, keyFilename) and the bucket name referenced in `./test/index.js`.  
 
