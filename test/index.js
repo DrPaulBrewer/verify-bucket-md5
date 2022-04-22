@@ -3,7 +3,8 @@
 const assert = require('assert');
 require('should');
 
-const storage = require('@google-cloud/storage')({
+const {Storage} = require('@google-cloud/storage');
+const storage = new Storage({
     keyFilename: './test-storage.json'
 });
 
@@ -138,7 +139,7 @@ describe('verify-bucket-md5:', function(){
 
     /*    describe(' md5.json with /exact/path/to/file ', suite(false));
      *      describe(' md5.json with filename.only ', suite(true));
-     *       
+     *
      *   md5.json should not have paths in it
      */
 
